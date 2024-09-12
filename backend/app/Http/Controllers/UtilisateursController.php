@@ -74,6 +74,32 @@ class UtilisateursController extends Controller
             'categorie'=>$candidat->categorie
         ]);
     }
+    public function getMontantStatus($id)
+    {
+        $utilisateur = User::find($id);
+
+        if (!$utilisateur || $utilisateur->role !== 'client') {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Utilisateur non trouvé ou non client',
+            ], 404);
+        }
+
+        $candidat = Candidats::where('nom', $utilisateur->nom)->first();
+
+        if (!$candidat) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'État de paiement non trouvé',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'montant' => $candidat->montant,
+            'categorie'=>$candidat->categorie
+        ]);
+    }
 
     public function updatePaymentStatus(Request $request, $id)
     {
@@ -111,6 +137,44 @@ class UtilisateursController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'État de paiement mis à jour avec succès',
+        ]);
+    }
+    public function updateMontantStatus(Request $request, $id)
+    {
+        $utilisateur = User::find($id);
+
+        if (!$utilisateur || $utilisateur->role !== 'client') {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Utilisateur non trouvé ou non client',
+            ], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'montant' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'validation_errors' => $validator->messages(),
+            ], 400);
+        }
+
+        $candidat = Candidats::where('nom', $utilisateur->nom)->first();
+
+        if (!$candidat) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'État de paiement non trouvé',
+            ], 404);
+        }
+
+        $candidat->montant = $request->montant;
+        $candidat->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Montant mis à jour avec succès',
         ]);
     }
    /*  public function login(Request $request)

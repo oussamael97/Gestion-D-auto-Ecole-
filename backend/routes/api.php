@@ -41,6 +41,8 @@ Route::post('/utilisateurs', [UtilisateursController::class, 'store']);
 Route::get('/utilisateurs/{id}', [UtilisateursController::class, 'show']);
 Route::get('/utilisateurs/{id}/payment-status', [UtilisateursController::class, 'getPaymentStatus']);
 Route::put('/utilisateurs/{id}/payment-status', [UtilisateursController::class, 'updatePaymentStatus']);
+Route::get('/utilisateurs/{id}/montant-status', [UtilisateursController::class, 'getMontantStatus']);
+Route::put('/utilisateurs/{id}/montant-status', [UtilisateursController::class, 'updateMontantStatus']);
 Route::get('/services/{id}', [ServicesController::class, 'show']);
 Route::put('/services/{id}', [ServicesController::class, 'update']);
 Route::delete('/services/{id}', [ServicesController::class, 'destroy']);

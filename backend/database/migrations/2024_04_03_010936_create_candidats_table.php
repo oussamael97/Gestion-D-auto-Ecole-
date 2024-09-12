@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string("motdepaasse");
             $table->enum("role",["admin","moniteur","client"]);
             $table->string("categorie")->default("B");
-            $table->string("Etat_de_paiement")->default("pays");
+            $table->string("Etat_de_paiement")->default("en cours");
+            $table->integer("montant")->default(0);
             $table->integer('heure_de_conduite')->nullable();
             $table->unsignedBigInteger("service_id")->nullable();
             $table->foreign('service_id')->references('id')->on("services");

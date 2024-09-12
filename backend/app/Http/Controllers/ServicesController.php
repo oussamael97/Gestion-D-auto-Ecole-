@@ -46,7 +46,7 @@ class ServicesController extends Controller
     ]);
 
     $imagePath = $request->file('image')->store('images', 'public');
-
+   
     $service = Services::create([
         'Nom' => $request->Nom,
         'Description' => $request->Description,

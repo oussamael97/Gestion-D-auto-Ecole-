@@ -1,6 +1,6 @@
 export default function Footer(){
   return(
-<footer className="container-fluid bg-dark text-light footer mt-3 pt-3">
+<footer className="container-fluid bg-dark text-light footer  pt-3">
 
 
 <section >

@@ -60,6 +60,7 @@ class SeancesController extends Controller
             'date_de_seances' => $validatedData['date_de_seances'],
             'heure_de_seances' => $validatedData['heure_de_seances'],
             'moniteur_id' => $moniteur->id,
+            'service_id'=>1,
             'index' => $validatedData['index']
         ]);
 

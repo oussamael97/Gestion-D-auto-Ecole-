@@ -27,7 +27,8 @@ class candidatsFactory extends Factory
             "motdepaasse"=>fake()->text(8),
             "role"=>fake()->randomElement(["client"]),
             "categorie"=>fake()->word(),
-            "Etat_de_paiement"=>fake()->randomElement($array = array('payes', 'en cours', 'no payes')),
+            "Etat_de_paiement"=>fake()->randomElement($array = array('payes', 'en cours','no payes')),
+            "montant"=>fake()->randomDigit(),
             "heure_de_conduite"=>fake()->randomDigit(),
             "service_id"=> Services::factory(), 
         ];

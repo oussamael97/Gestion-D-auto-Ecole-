@@ -34,9 +34,4 @@ Une application web pour la gestion d'une auto-école, développée avec Laravel
 - MySQL
 - Serveur local comme XAMPP, WAMP ou Laravel Valet
 
-## Installation
 
-1. **Cloner le dépôt**
-   ```bash
-   git clone https://github.com/votre-utilisateur/votre-repo.git
-   cd votre-repo

@@ -120,10 +120,10 @@ export default function UpdateServices() {
                 <div className="form-group">
                     <label>Image URL</label>
                     <input
-                        type="text"
+                        type="file"
                         className="form-control"
                         name="image"
-                        value={service.image}
+
                         onChange={handleChange}
                     />
                 </div>

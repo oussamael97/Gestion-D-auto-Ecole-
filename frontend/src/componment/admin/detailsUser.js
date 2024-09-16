@@ -12,37 +12,78 @@ export default function DetailUtilisateur() {
     const [categorie, setCategorie] = useState("");
     const [montant, setMontant] = useState("");
     const [newMontant, setNewMontant] = useState("");
+    const [candidatHeure,setCandidatHeure]=useState("");
+    const [moniteurHeure,setMoniteurHeure]=useState("");
 
     const fetchUtilisateurDetails = async () => {
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/utilisateurs/${id}`);
             const data = await response.json();
-
+    
             setUtilisateur(data.utilisateur);
-
+     
+    
             if (data.utilisateur.role === 'client') {
                 const responsePayment = await fetch(`http://127.0.0.1:8000/api/utilisateurs/${id}/payment-status`);
                 const paymentData = await responsePayment.json();
-
+    
                 setCategorie(paymentData.categorie);
                 setEtatPayment(paymentData.etatPayment);
-                setNewEtatPayment(paymentData.etatPayment); // Initialize newEtatPayment with fetched value
-
+                setNewEtatPayment(paymentData.etatPayment);
+    
                 const responseMontant = await fetch(`http://127.0.0.1:8000/api/utilisateurs/${id}/montant-status`);
                 const montantData = await responseMontant.json();
-
+    
                 setMontant(montantData.montant);
-                setNewMontant(montantData.montant); // Initialize newMontant with fetched value
-               /*  const candidat = await fetch(`http://127.0.0.1:8000/api/candidats`);
-                const candidatData = await candidat.json();
+                setNewMontant(montantData.montant);
+    
+                // Fetch candidates
+                const candidatResponse = await fetch(`http://127.0.0.1:8000/api/candidats`);
+                const candidatD = await candidatResponse.json();
+    
+                // Access the `candidat` array
+                const candidats = candidatD.candidat;
+    
+                // Filter candidates by user name
+                const candidatData = candidats.filter(c => c.nom === data.utilisateur.nom);
+                if (candidatData.length > 0) {
+                    // Access `heure_de_conduite` from the first candidate in the filtered array
+                    setCandidatHeure(candidatData[0].heure_de_conduite || "Non renseigné");
+                }
+    
+               
 
-                setCandidatHeure(montantData.montant);
-                setNewMontant(montantData.montant); // Initialize newMontant with fetched value */
+                
+
+            }
+            if(data.utilisateur.role === 'moniteur'){
+                const moniteurResponse = await fetch(`http://127.0.0.1:8000/api/moniteurs`);
+                const moniteurD = await moniteurResponse.json();
+    
+                console.log('moniteurD',moniteurD);
+    
+                // Access the `moniteur` array
+                const moniteurs = moniteurD.moniteur;
+    
+                // Filter moniteures by user name
+                const moniteurData = moniteurs.filter(c => c.nom === data.utilisateur.nom);
+                if (moniteurData.length > 0) {
+                    // Access `heure_de_conduite` from the first moniteure in the filtered array
+                    setMoniteurHeure(moniteurData[0].heure_de_travaille || "Non renseigné");
+                }
+    
+                console.log('moniteurData',moniteurData);
+                console.log('moniteurHeure',moniteurHeure);
             }
         } catch (error) {
             console.error('Error fetching utilisateur details:', error);
         }
     };
+    
+    
+    
+    
+
 
     const handlePaymentStatusUpdate = async () => {
         try {
@@ -136,6 +177,14 @@ export default function DetailUtilisateur() {
                                 <p className="form-control-plaintext">{utilisateur.role}</p>
                             </div>
                         </div>
+                        {utilisateur.role === 'moniteur' && (
+                            <div className="row mb-3">
+                            <label className="col-sm-2 col-form-label"><strong>Heure de Travaille:</strong></label>
+                            <div className="col-sm-10">
+                                <p className="form-control-plaintext">{moniteurHeure} Heure</p>
+                            </div>
+                        </div>
+                        )}
 
                         {utilisateur.role === 'client' && (
                             <>
@@ -143,6 +192,12 @@ export default function DetailUtilisateur() {
                                     <label className="col-sm-2 col-form-label"><strong>Catégorie:</strong></label>
                                     <div className="col-sm-10">
                                         <p className="form-control-plaintext">{categorie}</p>
+                                    </div>
+                                </div>
+                                <div className="row mb-3">
+                                    <label className="col-sm-2 col-form-label"><strong>Heure De Conduire:</strong></label>
+                                    <div className="col-sm-10">
+                                        <p className="form-control-plaintext">{candidatHeure} heure</p>
                                     </div>
                                 </div>
                                 <div className="row mb-3">
